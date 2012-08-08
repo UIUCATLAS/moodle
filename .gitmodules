@@ -25,3 +25,27 @@
 [submodule "blocks/checklist"]
 	path = blocks/checklist
 	url = git://github.com/davosmith/moodle-checklist
+[submodule "blocks/dndupload"]
+	path = blocks/dndupload
+	url = git://github.com/davosmith/moodle-block_dndupload
+[submodule "blocks/progress"]
+	path = blocks/progress
+	url = git://github.com/deraadt/Moodle-block_progress
+[submodule "course/format/grid"]
+	path = course/format/grid
+	url = git://github.com/PukunuiAustralia/moodle-courseformat_grid
+[submodule "course/format/topcoll"]
+	path = course/format/topcoll
+	url = git://github.com/gjb2048/moodle-format_topcoll
+[submodule "grade/export/checklist"]
+	path = grade/export/checklist
+	url = git://github.com/davosmith/moodle-checklist
+[submodule "report/customsql"]
+	path = report/customsql
+	url = git://github.com/timhunt/moodle-report_customsql
+[submodule "report/editdates"]
+	path = report/editdates
+	url = git://github.com/moodleou/moodle-report_editdates
+[submodule "report/editgroups"]
+	path = report/editgroups
+	url = git://github.com/moodleou/moodle-report_editgroups
