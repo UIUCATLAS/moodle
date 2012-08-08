@@ -1,0 +1,27 @@
+[submodule "mod/journal"]
+	path = mod/journal
+	url = git://github.com/dmonllao/moodle-mod_journal
+[submodule "mod/ouwiki"]
+	path = mod/ouwiki
+	url = git://github.com/moodleou/moodle-mod_ouwiki
+[submodule "mod/checklist"]
+	path = mod/checklist
+	url = git://github.com/davosmith/moodle-checklist
+[submodule "mod/book"]
+	path = mod/book
+	url = git://github.com/skodak/moodle-mod_book
+[submodule "mod/certificate"]
+	path = mod/certificate
+	url = git://github.com/markn86/moodle-mod_certificate
+[submodule "mod/choicegroup"]
+	path = mod/choicegroup
+	url = git://github.com/ndunand/moodle-mod_choicegroup
+[submodule "mod/flashcard"]
+	path = mod/flashcard
+	url = git://github.com/tmuras/Moodle-Flashcard
+[submodule "mod/questionnaire"]
+	path = mod/questionnaire
+	url = git://github.com/remotelearner/moodle-mod_questionnaire
+[submodule "blocks/checklist"]
+	path = blocks/checklist
+	url = git://github.com/davosmith/moodle-checklist
