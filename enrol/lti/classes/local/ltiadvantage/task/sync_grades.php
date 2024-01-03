@@ -89,8 +89,9 @@ class sync_grades extends scheduled_task {
                         continue;
                     }
 
-                    $grade = false;
-                    $dategraded = false;
+                    $grade = null;
+                    $grademax = null;
+                    $dategraded = null;
                     if ($context->contextlevel == CONTEXT_COURSE) {
                         if ($resource->gradesynccompletion && !$completion->is_course_complete($user->get_localid())) {
                             mtrace("Skipping - Course not completed $mtracecontent.");
@@ -116,25 +117,31 @@ class sync_grades extends scheduled_task {
 
                         $grades = grade_get_grades($cm->course, 'mod', $cm->modname, $cm->instance,
                             $user->get_localid());
-                        if (!empty($grades->items[0]->grades)) {
-                            $grade = reset($grades->items[0]->grades);
-                            if (!empty($grade->item)) {
-                                $grademax = floatval($grade->item->grademax);
+                        foreach ($grades->items as $gradeitem) {
+                            $gradeitem_grade = reset($gradeitems_element->grades);
+                            if ($grademax === null and $gradeitem->grademax !== null) {
+                                $grademax = floatval($gradeitem->grademax);
                             } else {
-                                $grademax = floatval($grades->items[0]->grademax);
+                                $grademax = $grademax + floatval($gradeitem->grademax);
                             }
-                            $dategraded = $grade->dategraded;
-                            $grade = $grade->grade;
+                            if ($dategraded === null or ($gradeitem_grade->dategraded !== null and $dategraded < $gradeitem_grade->dategraded)) {
+                                $dategraded = $gradeitem_grade->dategraded;
+                            }
+                            if ($grade === null and $gradeitem_grade !== null) {
+                                $grade = floatval($gradeitem_grade->grade);
+                            } else {
+                                $grade = $grade + floatval($gradeitem_grade->grade);
+                            }
                         }
                     }
 
-                    if ($grade === false || $grade === null || strlen($grade) < 1) {
-                        mtrace("Skipping - Invalid grade $mtracecontent.");
+                    if ($grade === null || strlen($grade) < 1) {
+                        mtrace("Skipping - Empty or negative grade $mtracecontent.");
                         continue;
                     }
 
                     if (empty($grademax)) {
-                        mtrace("Skipping - Invalid grademax $mtracecontent.");
+                        mtrace("Skipping - Empty grademax $mtracecontent.");
                         continue;
                     }
 

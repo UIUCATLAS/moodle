@@ -116,7 +116,7 @@ class published_resource_repository_test extends \advanced_testcase {
         $this->assertTrue($resources[0]->supports_grades());
         $this->assertTrue($resources[1]->supports_grades());
         $this->assertFalse($resources[2]->supports_grades());
-        $this->assertFalse($resources[3]->supports_grades()); // Multiple grade items isn't supported in content selection.
+        $this->assertTrue($resources[3]->supports_grades()); // Multiple grade items is now supported in content selection.
 
         $resources = $resourcerepo->find_all_for_user($user2->id);
         $this->assertCount(1, $resources);
@@ -148,7 +148,7 @@ class published_resource_repository_test extends \advanced_testcase {
         $this->assertEquals($resources[2]->get_contextid(), \context_module::instance($mod4->cmid)->id);
         $this->assertTrue($resources[0]->supports_grades());
         $this->assertFalse($resources[1]->supports_grades());
-        $this->assertFalse($resources[2]->supports_grades()); // Multiple grade items isn't supported in content selection.
+        $this->assertTrue($resources[2]->supports_grades()); // Multiple grade items are now supported in content selection.
 
         $resources = $resourcerepo->find_all_by_ids_for_user([$tool->id, $tool2->id, $tool3->id], $user2->id);
         $this->assertCount(1, $resources);

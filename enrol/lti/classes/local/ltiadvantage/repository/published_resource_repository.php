@@ -96,23 +96,33 @@ class published_resource_repository {
                             $resource->supportsgrades = false;
                             $resource->grademax = null;
 
-                            // Only activities having a single grade item of GRADE_TYPE_VALUE are eligible for declarative binding.
                             if (plugin_supports('mod', $mod->modname, FEATURE_GRADE_HAS_GRADE)) {
-                                $gradinginfo = grade_get_grades($resource->courseid, 'mod', $mod->modname, $mod->instance);
-                                if (count($gradinginfo->items) == 1) {
-                                    $gradeitem = \grade_item::fetch([
-                                        'courseid' => $resource->courseid,
-                                        'itemtype' => 'mod',
-                                        'itemmodule' => $mod->modname,
-                                        'iteminstance' => $mod->instance
-                                    ]);
-                                    if ($gradeitem && $gradeitem->gradetype == GRADE_TYPE_VALUE) {
-                                        $resource->supportsgrades = true;
-                                        $resource->grademax = (int)$gradinginfo->items[0]->grademax;
+                                $gradeitems = \grade_item::fetch_all([
+                                    'courseid' => $resource->courseid,
+                                    'itemtype' => 'mod',
+                                    'itemmodule' => $mod->modname,
+                                    'iteminstance' => $mod->instance
+                                ]);
+                                if ($gradeitems == false) { //gradable activity but grade type initially set to none
+                                        $availableresources[] = $resource; 
+                                } else {
+                                    foreach ($gradeitems as $gradeitem) {
+                                        if ($gradeitem && $gradeitem->gradetype == GRADE_TYPE_VALUE) {
+                                            $resource->supportsgrades = true;
+                                            if ($resource->grademax === null) {
+                                                 $resource->grademax = (int) $gradeitem->grademax;
+                                            } else {
+                                                 $resource->grademax = $resource->grademax + (int) $gradeitem->grademax;
+                                            }
+                                        } elseif ($gradeitem && $gradeitem->gradetype == GRADE_TYPE_NONE) {
+                                            continue; // This gradable item was set to not take a grade
+                                        }
                                     }
+                                $availableresources[] = $resource; 
                                 }
+                            } else { // This is an ungraded activity, so no need to look up grade items
+                                $availableresources[] = $resource;
                             }
-                            $availableresources[] = $resource;
                         }
                     }
                 }
