@@ -134,7 +134,14 @@ function set_moodle_cookie($username) {
 
     if ($username !== '') {
         // Set username cookie for 60 days.
-        setcookie($cookiename, rc4encrypt($username), time() + (DAYSECS * 60), $CFG->sessioncookiepath, $CFG->sessioncookiedomain, $cookiesecure, $CFG->cookiehttponly);
+        // Samesite = None to allow for LTI embeds in an iframe
+        $cookieoptions = array('expires' => time() + (DAYSECS * 60),
+                               'path' =>     $CFG->sessioncookiepath,
+                               'domain' =>   $CFG->sessioncookiedomain,
+                               'secure' =>   $cookiesecure,
+                               'httponly' => $CFG->cookiehttponly,
+                               'samesite' => 'None');
+        setcookie($cookiename, rc4encrypt($username), $cookieoptions);
     }
 }
 
