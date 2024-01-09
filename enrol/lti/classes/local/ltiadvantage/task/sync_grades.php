@@ -136,12 +136,12 @@ class sync_grades extends scheduled_task {
                     }
 
                     if ($grade === null || strlen($grade) < 1) {
-                        mtrace("Skipping - Empty or negative grade $mtracecontent.");
+                        mtrace("Skipping - Invalid grade $mtracecontent.");
                         continue;
                     }
 
                     if (empty($grademax)) {
-                        mtrace("Skipping - Empty grademax $mtracecontent.");
+                        mtrace("Skipping - Invalid grademax $mtracecontent.");
                         continue;
                     }
 
