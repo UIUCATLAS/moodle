@@ -118,7 +118,7 @@ class sync_grades extends scheduled_task {
                         $grades = grade_get_grades($cm->course, 'mod', $cm->modname, $cm->instance,
                             $user->get_localid());
                         foreach ($grades->items as $gradeitem) {
-                            $gradeitem_grade = reset($gradeitems_element->grades);
+                            $gradeitem_grade = reset($gradeitem->grades);
                             if ($grademax === null and $gradeitem->grademax !== null) {
                                 $grademax = floatval($gradeitem->grademax);
                             } else {
